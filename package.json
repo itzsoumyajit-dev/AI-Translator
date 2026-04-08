@@ -1,0 +1,21 @@
+{
+  "name": "ai-translator",
+  "version": "1.0.0",
+  "description": "Standalone AI Translator Software",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "keywords": [
+    "translator",
+    "ai",
+    "electron"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^41.1.1",
+    "node-fetch": "^3.3.2"
+  }
+}

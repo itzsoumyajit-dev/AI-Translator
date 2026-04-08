@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Translator — Hub</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-frame">
+    <!-- Draggable Header -->
+    <header class="hub-header">
+      <div class="drag-region"></div>
+      <div class="header-inner">
+        <div class="brand">
+          <div class="logo-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m5 8 6 6"/>
+              <path d="m4 14 6 6 2-3"/>
+              <path d="M2 5h12"/>
+              <path d="M7 2h1"/>
+              <path d="m22 22-5-10-5 10"/>
+              <path d="M14 18h6"/>
+            </svg>
+          </div>
+          <span class="app-name">AI Translator <span class="badge">v2.0</span></span>
+        </div>
+        <div class="window-controls">
+          <button id="btn-min" class="win-btn"><svg width="12" height="12" viewBox="0 0 12 12"><rect y="5" width="12" height="1.5" rx="0.75" fill="currentColor"/></svg></button>
+          <button id="btn-max" class="win-btn"><svg width="12" height="12" viewBox="0 0 12 12"><rect x="1" y="1" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
+          <button id="btn-close" class="win-btn btn-close"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="hub-content">
+      <div class="welcome-section">
+        <h1 id="main-title">Checking System Integrity</h1>
+        <p id="main-subtitle">Scanning for a compatible default browser to launch the translator...</p>
+      </div>
+
+      <!-- State: Loading/Scanning -->
+      <div id="state-scanning" class="state-view">
+        <div class="scanner">
+          <div class="scanner-ring"></div>
+          <div class="scanner-dot"></div>
+        </div>
+      </div>
+
+      <!-- State: Success -->
+      <div id="state-success" class="state-view" style="display: none;">
+        <div class="browser-card">
+          <div class="browser-icon" id="browser-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <div class="browser-info">
+            <h3 id="browser-name">Google Chrome</h3>
+            <p>System Default Browser Detected</p>
+          </div>
+        </div>
+        <button id="btn-launch" class="primary-btn">
+          <span>START TRANSLATOR</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- State: Error/Guidance -->
+      <div id="state-error" class="state-view" style="display: none;">
+        <div class="error-card">
+          <div class="error-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <div class="error-text">
+            <h3>No Browser Configured</h3>
+            <p>We couldn't detect a default web browser on your system.</p>
+          </div>
+        </div>
+        
+        <div class="guidance-box">
+          <h4>How to fix this:</h4>
+          <ul>
+            <li>Open system <strong>Settings</strong></li>
+            <li>Go to <strong>Apps</strong> > <strong>Default Apps</strong></li>
+            <li>Find <strong>Web Browser</strong> and select one</li>
+            <li>Restart this application</li>
+          </ul>
+        </div>
+        <button onclick="window.location.reload()" class="secondary-btn">RE-SCAN SYSTEM</button>
+      </div>
+
+      <footer class="hub-footer">
+        <div class="footer-status">
+          <span class="status-dot online"></span>
+          <span id="status-text">Local Engine Active (Port 3777)</span>
+        </div>
+        <div class="footer-links">
+          <span>Secure Bridge</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>

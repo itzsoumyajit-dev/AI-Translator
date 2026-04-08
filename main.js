@@ -72,14 +72,24 @@ ipcMain.handle('get-languages', () => {
 
 ipcMain.handle('translate', async (event, { text, from, to }) => {
   try {
-    const fromName = getLanguageName(from);
+    let sourceCode = from;
+    let isAuto = from === 'autodetect';
+
+    // Handle auto-detection
+    if (isAuto) {
+      sourceCode = await detectLanguage(text.trim());
+    }
+
+    const fromName = isAuto ? `Detected: ${getLanguageName(sourceCode)}` : getLanguageName(sourceCode);
     const toName = getLanguageName(to);
-    const result = await translate(text.trim(), from, to);
+
+    const result = await translate(text.trim(), sourceCode, to);
+    
     return {
       success: true,
       originalText: text.trim(),
       translatedText: result.translatedText,
-      from: { code: from, name: fromName },
+      from: { code: sourceCode, name: fromName },
       to: { code: to, name: toName },
       match: result.match,
       timestamp: new Date().toISOString(),

@@ -10,7 +10,7 @@
   const state = {
     phase: 'idle', // idle | selecting | translating | results | error
     languages: [],
-    fromLang: '',
+    fromLang: 'autodetect',
     toLang: '',
     inputText: '',
     translatedText: '',
@@ -151,9 +151,16 @@
   }
 
   function populateSelects() {
-    const makeOptions = (select) => {
+    const makeOptions = (select, isFrom = false) => {
       // Keep the placeholder
       select.innerHTML = '<option value="" disabled selected>Select language...</option>';
+
+      if (isFrom) {
+        const autoOpt = document.createElement('option');
+        autoOpt.value = 'autodetect';
+        autoOpt.textContent = '✨ Auto Detect — Source Language';
+        select.appendChild(autoOpt);
+      }
 
       state.languages.forEach((lang) => {
         const opt = document.createElement('option');
@@ -163,11 +170,17 @@
       });
     };
 
-    makeOptions(els.langFrom);
-    makeOptions(els.langTo);
+    makeOptions(els.langFrom, true);
+    makeOptions(els.langTo, false);
 
-    // Restore previous selections
-    if (state.fromLang) els.langFrom.value = state.fromLang;
+    // Set defaults/Restore previous selections
+    if (state.fromLang) {
+      els.langFrom.value = state.fromLang;
+    } else {
+      state.fromLang = 'autodetect';
+      els.langFrom.value = 'autodetect';
+    }
+    
     if (state.toLang) els.langTo.value = state.toLang;
   }
 
@@ -192,6 +205,10 @@
 
     // Swap languages
     els.swapBtn.addEventListener('click', () => {
+      if (els.langFrom.value === 'autodetect') {
+        showToast('Cannot swap Auto Detect');
+        return;
+      }
       const temp = els.langFrom.value;
       els.langFrom.value = els.langTo.value;
       els.langTo.value = temp;
